@@ -1,0 +1,8 @@
+syntax = "proto3";
+package ten64chat.data;
+
+message UUID {
+    // UUID bits are commonly above 2^56 -> use fixed64
+    fixed64 lowBits = 1;
+    fixed64 highBits = 2;
+}

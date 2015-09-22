@@ -1,0 +1,24 @@
+syntax = "proto3";
+package ten64chat.user;
+
+import "complexdata.proto";
+
+enum Status {
+    OFFLINE = 0;
+    // INVISIBLE = 1; do we want this?
+    BLOCKED = 2;
+    DO_NOT_DISTURB = 3;
+    AWAY = 4;
+    ONLINE = 5;
+}
+
+message User {
+    ten64chat.data.UUID uuid = 1;
+    string displayName = 2;
+    Status status = 3;
+}
+
+message UserStatusChange {
+    User user = 1;
+    Status status = 2;
+}

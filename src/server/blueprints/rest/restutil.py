@@ -30,12 +30,27 @@ def get_implied_client_type(useragent: str) -> ClientType:
     return ClientType.OTHER
 
 
-def _shared_decorator_logic(**response_kwargs):
-    def make_wrapper(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            return get_current_app().response_class(f(*args, **kwargs), **response_kwargs)
+_shared_decorator_key = __name__ + "_shared_decorator"
 
+
+def _shared_decorator_logic(**response_kwargs):
+    """
+    Shared deco logic, merges decorators that are used together
+    """
+
+    def make_wrapper(f):
+        merged_kwargs = response_kwargs.copy()
+        fn = f
+        if hasattr(f, _shared_decorator_key):
+            data = getattr(f, _shared_decorator_key)
+            merged_kwargs.update(data['kwargs'])
+            fn = data['wrapped']
+
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            return get_current_app().response_class(fn(*args, **kwargs), **merged_kwargs)
+
+        setattr(wrapper, _shared_decorator_key, {'kwargs': merged_kwargs, 'wrapped': f})
         return wrapper
 
     return make_wrapper
@@ -43,3 +58,14 @@ def _shared_decorator_logic(**response_kwargs):
 
 def content_type(ctype):
     return _shared_decorator_logic(content_type=ctype)
+
+
+def status_code(code):
+    return _shared_decorator_logic(status=code)
+
+
+def headers(direct_dict=None, **kwargs):
+    funneled = direct_dict or dict()
+    funneled.update(kwargs)
+    funneled = {k.replace('_', '-').upper(): v for k, v in funneled.items()}
+    return _shared_decorator_logic(headers=funneled)

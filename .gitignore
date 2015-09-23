@@ -59,3 +59,7 @@ target/
 # Protobuf
 /generated_protobuf/
 pip-selfcheck.json
+
+# virtualenv
+bin/
+include/

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from flask import Flask
+from flask import Flask, render_template, url_for
 from common.constants import *
 import os
 
@@ -16,15 +16,8 @@ app.config.update(dict(
 ))
 app.config.from_envvar(PROGRAM_NAME.upper() + '_SETTINGS', silent=True)
 
-base_path = Path(__file__).parent
-
-
-@app.route('/')
-def index():
-    return "Nothing to see."
-
-
 if __name__ == '__main__':
-    from blueprints import security
-    app.register_blueprint(security.blueprint)
+    from blueprints import webui
+
+    webui.registerself(app)
     app.run(addr, port)

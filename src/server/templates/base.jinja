@@ -1,0 +1,51 @@
+{% set active_page = active_page|default("?") %}
+{% set custom_css = custom_css|default(none) %}
+{% set mid_panel_col = mid_panel_col|default("col-md-8 col-md-offset-2") %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ "/static/1064.ico" }}" rel="shortcut icon"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/sandstone/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link href="/static/bootfail.css" rel="stylesheet"/>
+    {% if custom_css %}
+        {% if custom_css is sequence %}
+            {% for css in custom_css %}
+                <link href="{{ css }}" rel="stylesheet"/>
+            {% endfor %}
+        {% else %}
+            <link href="{{ custom_css }}" rel="stylesheet"/>
+        {% endif %}
+    {% endif %}
+    <title>1064Chat</title>
+</head>
+<body>
+{% include "navbar.jinja" %}
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default {{ mid_panel_col }}">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div id="messages" style="margin-top: 5px;">
+                        {% for message in messages %}
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block body %}A non-generated page. Totally useless...
+                <a href="{{ url_for("home") }}">Go to index.</a>{% endblock %}
+        </div>
+    </div>
+</div>
+{% block jqueryjs %}
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>{% endblock %}
+{% block bootstrapjs %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>{% endblock %}
+</body>
+</html>

@@ -1,0 +1,9 @@
+.pad-top {
+    margin-top: 10px;
+}
+.pad-bottom {
+    margin-bottom: 10px;
+}
+.pad-both {
+    margin: 10px 0 0 10px;
+}

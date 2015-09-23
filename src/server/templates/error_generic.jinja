@@ -1,0 +1,8 @@
+{% extends "base.jinja" %}
+{% set active_page = error_code %}
+{% block body %}
+    {{ error_code }}?<br>
+    <br>
+    Message: {{ error }}<br>
+    <a href="{{ url_for("index") }}">Go home.</a>
+{% endblock %}

@@ -58,3 +58,4 @@ target/
 
 # Protobuf
 /generated_protobuf/
+pip-selfcheck.json

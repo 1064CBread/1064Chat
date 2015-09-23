@@ -1,0 +1,8 @@
+.form-signin input#inputPassword[type="password"] {
+  margin-bottom: -1px;
+  border-radius: 0;
+}.form-signin input#verifyPassword[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

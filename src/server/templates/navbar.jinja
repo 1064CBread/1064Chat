@@ -1,0 +1,39 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" title="1064Chat Web...Something" href="/">
+                <img alt="1064Chat LERGO" src="/static/1064.png"
+                     style="object-fit: contain; max-height: 100%; height: 100%"/>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% set pages = allpages %}
+                {% if not active_page in pages|map('index', 1) %}
+                    {% set pages = pages + ((request.path, active_page, active_page|capitalize),) %}
+                {% endif %}
+                {% for x in pages if navbar_should_show_page(x) %}
+                    {% set class = "" %}
+                    {% if active_page != none and x[PageData.ID] == active_page %}
+                        {% set class = ' class="active"' %}
+                    {% endif %}
+                    <li{{ class }}>
+                        <a href="{{ x[PageData.URL] }}">{{ x[PageData.TITLE] }}</a>
+                    </li>
+                {% else %}
+                    <!-- <li style="color: #ffffff;">There was no other pages, somehow.</li> -->
+                    <li class="active">
+                        <a href="#">{{ active_page }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>

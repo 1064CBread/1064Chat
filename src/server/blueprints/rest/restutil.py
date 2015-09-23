@@ -2,7 +2,9 @@
 Utilities specific to REST blueprints.
 """
 from enum import Enum
+from collections.abc import MutableMapping
 from util import get_current_app
+from flask import Response
 from functools import wraps
 import re
 
@@ -43,14 +45,25 @@ def _shared_decorator_logic(**response_kwargs):
         fn = f
         if hasattr(f, _shared_decorator_key):
             data = getattr(f, _shared_decorator_key)
-            merged_kwargs.update(data['kwargs'])
+            kwtomerge = data['kwargs']
+            merge_dict = dict()
+            for k, v in kwtomerge.items():
+                if k in merged_kwargs and isinstance(merged_kwargs[k], MutableMapping):
+                    merged_kwargs[k].update(v)
+                else:
+                    merge_dict[k] = v
+            merged_kwargs.update(merge_dict)
             fn = data['wrapped']
 
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            return get_current_app().response_class(fn(*args, **kwargs), **merged_kwargs)
+            ret = fn(*args, **kwargs)
+            if isinstance(ret, Response):
+                # ahhhhhh
+                raise ValueError("No support for returning response and merging")
+            return get_current_app().response_class(ret, **merged_kwargs)
 
-        setattr(wrapper, _shared_decorator_key, {'kwargs': merged_kwargs, 'wrapped': f})
+        setattr(wrapper, _shared_decorator_key, {'kwargs': merged_kwargs, 'wrapped': fn})
         return wrapper
 
     return make_wrapper

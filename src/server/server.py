@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-
-from pathlib import Path
-
-from flask import Flask, render_template, url_for
+from flask import Flask
 from common.constants import *
 import os
 

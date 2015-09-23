@@ -13,8 +13,16 @@ app.config.update(dict(
 ))
 app.config.from_envvar(PROGRAM_NAME.upper() + '_SETTINGS', silent=True)
 
+@app.route('/')
+def index():
+    links = ["/webui/", "/rest/"]
+    htmllinks = ['<a href="{0}">{0}</a>'.format(x) for x in links]
+    return "Either go to " + " or ".join(htmllinks)
+
 if __name__ == '__main__':
     from blueprints import webui
+    from blueprints.rest import main as restmain
 
+    restmain.registerself(app)
     webui.registerself(app)
     app.run(addr, port)

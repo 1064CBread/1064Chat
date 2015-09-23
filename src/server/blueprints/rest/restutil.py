@@ -2,6 +2,8 @@
 Utilities specific to REST blueprints.
 """
 from enum import Enum
+from util import get_current_app
+from functools import wraps
 import re
 
 
@@ -26,3 +28,18 @@ def get_implied_client_type(useragent: str) -> ClientType:
     if "curl/" in useragent:
         return ClientType.CURL
     return ClientType.OTHER
+
+
+def _shared_decorator_logic(**response_kwargs):
+    def make_wrapper(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            return get_current_app().response_class(f(*args, **kwargs), **response_kwargs)
+
+        return wrapper
+
+    return make_wrapper
+
+
+def content_type(ctype):
+    return _shared_decorator_logic(content_type=ctype)

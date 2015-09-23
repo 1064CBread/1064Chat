@@ -1,4 +1,4 @@
-from flask import current_app, url_for
+from flask import current_app, Flask, url_for
 from collections.abc import Container
 from werkzeug.routing import Rule
 from typing import Iterable
@@ -19,5 +19,9 @@ def get_rules(filt=lambda x: True) -> Iterable[Rule]:
     fn = filt
     if isinstance(filt, Container):
         fn = lambda x: any((name in x.endpoint) for name in filt)
-    return [x for x in current_app.url_map.iter_rules()
+    return [x for x in get_current_app().url_map.iter_rules()
             if "GET" in x.methods and has_no_empty_params(x) and fn(x)]
+
+
+def get_current_app() -> Flask:
+    return current_app

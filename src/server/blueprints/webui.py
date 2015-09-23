@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, Flask, render_template, url_for
+from flask import Blueprint, Flask, render_template, url_for
 from blueprints import security
 
 blueprint = Blueprint(__name__, __name__, url_prefix='/webui')
@@ -19,7 +19,6 @@ def add_jinja_vars():
     import constants
     from titlecase import titlecase
     from util import get_rules
-
 
     d = dict()
     d['PageData'] = constants.PageData

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 from flask import Flask
 from common.constants import *
+from pathlib import Path
 import os
+import sys
+sys.path.append(str(Path(__file__).parent))
 
 app = Flask(PROGRAM_NAME)
 
@@ -13,13 +16,15 @@ app.config.update(dict(
 ))
 app.config.from_envvar(PROGRAM_NAME.upper() + '_SETTINGS', silent=True)
 
+
 @app.route('/')
 def index():
     links = ["/webui/", "/rest/"]
     htmllinks = ['<a href="{0}">{0}</a>'.format(x) for x in links]
     return "Either go to " + " or ".join(htmllinks)
 
-if __name__ == '__main__':
+
+def run():
     from blueprints import webui
     from blueprints.rest import main as restmain
 

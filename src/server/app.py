@@ -4,6 +4,7 @@ from common.constants import *
 from pathlib import Path
 import os
 import sys
+
 sys.path.append(str(Path(__file__).parent))
 
 app = Flask(PROGRAM_NAME)

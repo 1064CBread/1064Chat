@@ -23,7 +23,6 @@ def index():
     htmllinks = ['<a href="{0}">{0}</a>'.format(x) for x in links]
     return "Either go to " + " or ".join(htmllinks)
 
-
 def run():
     from blueprints import webui
     from blueprints.rest import main as restmain

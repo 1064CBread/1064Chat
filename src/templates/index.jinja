@@ -1,6 +1,40 @@
 {% extends "base.jinja" %}
 {% set active_page = "index" %}
 
+{% block head %}
+  <script src="/static/webui.js"></script>
+{% endblock %}
+
+{# TODO: fix weird lump on 'login' button in nav bar #}
+
 {% block body %}
-    Web UI? Maybe.
+  <div id="wrapper" class="panel panel-default">
+    {# TODO: make UI actually sort of pretty instead of a clusterfuck of divs #}
+    
+    {# TODO: I'm looking to make channel-list behave as in http://www.bootply.com/89285 #}
+    <div id="channel-list">
+      <b>Channels:</b><br />
+      {% with channels = get_channels() %}
+	{% if channels %}
+	  {% for channel in channels %}
+	    <span class="channel">{{ channel }} <br /></span>
+	  {% endfor %}
+	{% endif %}
+      {% endwith %}
+    </div>
+
+    <div id="central-field">
+      <div id="conversation">
+	I am a conversation
+      </div>
+
+      <div id="textfield">
+	<textarea style="width: 100%; height: 100%"></textarea>
+      </div>
+    </div>
+
+    <div id="user-list">
+    </div>
+
+  </div>
 {% endblock %}

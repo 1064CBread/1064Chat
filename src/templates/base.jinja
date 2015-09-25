@@ -10,18 +10,22 @@
           rel="stylesheet"/>
     <link href="/static/bootfail.css" rel="stylesheet"/>
     {% if custom_css %}
-        {% if custom_css is sequence %}
-            {% for css in custom_css %}
-                <link href="{{ css }}" rel="stylesheet"/>
-            {% endfor %}
-        {% else %}
-            <link href="{{ custom_css }}" rel="stylesheet"/>
-        {% endif %}
+      {% if custom_css is sequence %}
+        {% for css in custom_css %}
+          <link href="{{ css }}" rel="stylesheet"/>
+        {% endfor %}
+      {% else %}
+        <link href="{{ custom_css }}" rel="stylesheet"/>
+      {% endif %}
     {% endif %}
+
+    {% block head %}{% endblock %}
+    
     <title>1064Chat</title>
 </head>
 <body>
-{% include "navbar.jinja" %}
+  {% include "navbar.jinja" %}
+  {% block body %}
 <div class="container">
     <div class="row">
         <div class="panel panel-default {{ mid_panel_col }}">
@@ -38,11 +42,12 @@
                     </div>
                 {% endif %}
             {% endwith %}
-            {% block body %}A non-generated page. Totally useless...
-                <a href="{{ url_for("home") }}">Go to index.</a>{% endblock %}
+            {% block div %}A non-generated page. Totally useless...
+              <a href="{{ url_for("home") }}">Go to index.</a>{% endblock %}
         </div>
     </div>
 </div>
+{% endblock body %}
 {% block jqueryjs %}
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>{% endblock %}
 {% block bootstrapjs %}

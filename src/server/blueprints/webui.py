@@ -27,6 +27,8 @@ def add_jinja_vars():
     endpoints = list(sorted(((x.endpoint, x.endpoint.split('.')[-1]) for x in rules), key=lambda x: x[1]))
     d['allpages'] = tuple((url_for(k), v, titlecase(v)) for k, v in endpoints)
     d['navbar_should_show_page'] = lambda x: True
+    d['custom_css'] = [ "/static/webui.css" ]
+    d['get_channels'] = get_channels
     return d
 
 
@@ -34,3 +36,7 @@ def registerself(app: Flask, prefix=''):
     prefix += blueprint.url_prefix
     app.register_blueprint(blueprint, url_prefix=prefix)
     security.registerself(app, prefix=prefix)
+
+def get_channels():
+    # TODO store which channels a user is talking in, and return them here
+    return ["1064CBread", "Other Conversation", "Foobar"]

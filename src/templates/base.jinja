@@ -10,47 +10,53 @@
           rel="stylesheet"/>
     <link href="/static/bootfail.css" rel="stylesheet"/>
     {% if custom_css %}
-      {% if custom_css is sequence %}
-        {% for css in custom_css %}
-          <link href="{{ css }}" rel="stylesheet"/>
-        {% endfor %}
-      {% else %}
-        <link href="{{ custom_css }}" rel="stylesheet"/>
-      {% endif %}
+        {% if custom_css is sequence %}
+            {% for css in custom_css %}
+                <link href="{{ css }}" rel="stylesheet"/>
+            {% endfor %}
+        {% else %}
+            <link href="{{ custom_css }}" rel="stylesheet"/>
+        {% endif %}
     {% endif %}
 
     {% block head %}{% endblock %}
-    
+
     <title>1064Chat</title>
 </head>
 <body>
-  {% include "navbar.jinja" %}
-  {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="panel panel-default {{ mid_panel_col }}">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div id="messages" style="margin-top: 5px;">
-                        {% for message in messages %}
-                            <div class="alert alert-warning alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-            {% block div %}A non-generated page. Totally useless...
-              <a href="{{ url_for("home") }}">Go to index.</a>{% endblock %}
+{% include "navbar.jinja" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default {{ mid_panel_col }}">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div id="messages" style="margin-top: 5px;">
+                            {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% block div %}A non-generated page. Totally useless...
+                    <a href="{{ url_for("home") }}">Go to index.</a>{% endblock %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock body %}
+{% block reactjs %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+{% endblock %}
 {% block jqueryjs %}
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>{% endblock %}
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+{% endblock %}
 {% block bootstrapjs %}
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>{% endblock %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+{% endblock %}
 </body>
 </html>

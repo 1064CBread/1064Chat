@@ -6,3 +6,4 @@ protobuf==3.0.0a3
 titlecase==0.7.2
 Werkzeug==0.10.4
 wheel==0.26.0
+http_status==1.0.0
